@@ -19,10 +19,30 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+
+    if !@user.authenticate(user_params[:current_password])
+      @user.errors.add(:base,:blank,message: "Current password is incorrect")
+      render 'edit'
+      return
+    end
+    if @user.update_attributes(user_params)
+      flash[:success] = "Account information updated"
+      redirect_to user_url(@user)
+    else
+      render 'edit'
+    end
+  end
+
   private
 
     def user_params
-      params.require(:user).permit(:name, :email, :password,
+      params.require(:user).permit(:name, :email, :current_password, :password,
                                    :password_confirmation)
     end
 
