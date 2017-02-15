@@ -1,1 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+glick:
+  name: Michael Glick
+  email: glick@test.com
+  password_digest: <%=User.digest('password') %> 
