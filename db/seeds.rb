@@ -10,7 +10,7 @@ User.create!(name:  "Ivan Kelber",
              password:              "password",
              password_confirmation: "password",
              admin: true,
-             activation:true,
+             activated:true,
              activated_at: 100.year.ago)
 
 49.times do |n|
@@ -21,6 +21,6 @@ User.create!(name:  "Ivan Kelber",
                email: email,
                password:              password,
                password_confirmation: password,
-               activation:true,
+               activated:true,
                activated_at: Time.zone.now)
 end
