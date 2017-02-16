@@ -3,4 +3,9 @@
 glick:
   name: Michael Glick
   email: glick@test.com
-  password_digest: <%=User.digest('password') %> 
+  password_digest: <%=User.digest('password') %>
+
+cj:
+  name: Clayton John
+  email: cj@test.com
+  password_digest: <%=User.digest('password')%>
