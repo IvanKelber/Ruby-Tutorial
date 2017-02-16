@@ -1,10 +1,9 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token
-  attr_accessor :current_password
-
+  attr_accessor :remember_token, :activation_token, :current_password
+  before_save :downcase_email
+  before_create :create_activation_digest
   $VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
 
-  before_save { email.downcase!} #"bang" operator applies method to self and updates
   validates(:name,presence:true,length:{maximum:50})
   validates(:email,presence:true,length:{maximum:255},
             format: {with:$VALID_EMAIL_REGEX},
@@ -41,5 +40,14 @@ class User < ApplicationRecord
     BCrypt::Password.new(remember_digest).is_password?(remember_token)
   end
 
+  private
+
+    def downcase_email
+      self.email.downcase! #"bang" operator applies method to self and updates
+    end
+    def create_activation_digest
+      self.activation_token = User.new_token
+      self.activation_digest = User.digest(self.activation_token)
+    end
 
 end
