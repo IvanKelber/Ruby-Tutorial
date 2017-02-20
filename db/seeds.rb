@@ -24,3 +24,9 @@ User.create!(name:  "Ivan Kelber",
                activated:true,
                activated_at: Time.zone.now)
 end
+
+User.all.each do |user|
+  40.times do
+    user.microposts.create(content:Faker::Lorem.sentence)
+  end
+end

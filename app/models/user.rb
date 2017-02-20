@@ -2,9 +2,11 @@ class User < ApplicationRecord
   attr_accessor :remember_token, :activation_token, :current_password
   before_save :downcase_email
   before_create :create_activation_digest
-  $VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  has_many :microposts, dependent: :destroy
+
 
   validates(:name,presence:true,length:{maximum:50})
+  $VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates(:email,presence:true,length:{maximum:255},
             format: {with:$VALID_EMAIL_REGEX},
             uniqueness: {case_sensitive: false});
@@ -14,6 +16,10 @@ class User < ApplicationRecord
 
   def activate
     update_columns(activated:true,activated_at:Time.zone.now)
+  end
+
+  def feed
+    Micropost.all
   end
 
   # Sends activation email.

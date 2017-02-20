@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   resources :users #this handles a bunch of things for us!!
   resources :account_activations, only: [:edit]
+  resources :microposts,          only: [:create, :destroy]
+
 
 
 end
